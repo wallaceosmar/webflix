@@ -13,7 +13,7 @@ FROM base as deps
 WORKDIR /myapp
 
 # ADD package.json package-lock.json ./
-# ADD package.json ./
+ADD package.json ./
 RUN npm install --production=false
 
 # Setup production node_modules
@@ -22,7 +22,8 @@ FROM base as production-deps
 WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
-ADD package.json package-lock.json ./
+# ADD package.json package-lock.json ./
+ADD package.json ./
 RUN npm prune --production
 
 # Build the app
